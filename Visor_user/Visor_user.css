@@ -116,6 +116,7 @@ body {
     border-radius: 12px;
     border: 1px solid rgba(45,212,191,0.3);
     transition: all 0.3s ease;
+    display: none;
 }
 
 .scene-info:hover {
@@ -373,6 +374,7 @@ body {
     max-width: 250px;
     line-height: 1.6;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    display: none;
 }
 
 .help-title {
