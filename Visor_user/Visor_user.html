@@ -15,6 +15,7 @@
     <!-- Panel de navegación principal -->
     <div class="navigation-panel">
         <h3>🌐 Visor Panorámico ORB</h3>
+        <button id="btnToggleNav" class="nav-toggle-btn" aria-label="Cerrar panel">✕</button>
         
         <!-- Información del lugar actual -->
         <div class="scene-info">
@@ -106,5 +107,8 @@
     
     <!-- JavaScript del visor -->
     <script src="Visor_user.js"></script>
+    
+    <!-- Botón para reabrir el panel cuando esté cerrado -->
+    <button id="btnOpenNav" class="open-nav-btn" aria-label="Abrir panel" hidden>☰</button>
 </body>
 </html>

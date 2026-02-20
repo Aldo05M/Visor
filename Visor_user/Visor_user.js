@@ -881,6 +881,45 @@ function onWindowResize() {
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
+// ========== NAV PANEL TOGGLE ==========
+// Collapse/expand the left navigation panel. Use localStorage to remember state.
+document.addEventListener('DOMContentLoaded', function() {
+    try {
+        const nav = document.querySelector('.navigation-panel');
+        const btnToggle = document.getElementById('btnToggleNav');
+        const btnOpen = document.getElementById('btnOpenNav');
+
+        if (!nav) return;
+
+        function setCollapsed(state, save = true) {
+            if (state) {
+                nav.classList.add('collapsed');
+                if (btnOpen) btnOpen.hidden = false;
+            } else {
+                nav.classList.remove('collapsed');
+                if (btnOpen) btnOpen.hidden = true;
+            }
+            if (save) localStorage.setItem('visor_nav_collapsed', state ? '1' : '0');
+        }
+
+        // initialize from storage
+        const stored = localStorage.getItem('visor_nav_collapsed');
+        if (stored === '1') setCollapsed(true, false);
+
+        if (btnToggle) btnToggle.addEventListener('click', function() {
+            const isCollapsed = nav.classList.contains('collapsed');
+            setCollapsed(!isCollapsed);
+        });
+
+        if (btnOpen) btnOpen.addEventListener('click', function() {
+            setCollapsed(false);
+        });
+
+    } catch (e) {
+        console.warn('Nav toggle init error', e);
+    }
+});
+
 // Verificar librerías al cargar
 window.addEventListener('load', function() {
     console.log('🔍 Verificando librerías...');
