@@ -1,0 +1,23 @@
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+.env
+# Node / Editor
+node_modules/
+.env
+.DS_Store
+.vscode/
+.idea/
+*.log
+*.tmp
+
+# Build
+dist/
+build/
+
+# System
+Thumbs.db
+
+# Git LFS attributes file (keep in repo)
+.gitattributes

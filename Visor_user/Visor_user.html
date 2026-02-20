@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visor de Panorámicas - ORB Usuario</title>
+    <link rel="stylesheet" href="Visor_user.css">
+</head>
+<body>
+    <!-- Canvas 3D para el visor -->
+    <div id="viewer"></div>
+    <!-- Overlay dentro del visor para botones flotantes -->
+    <div id="viewerOverlay" class="viewer-overlay" aria-hidden="true"></div>
+    
+    <!-- Panel de navegación principal -->
+    <div class="navigation-panel">
+        <h3>🌐 Visor Panorámico ORB</h3>
+        
+        <!-- Información del lugar actual -->
+        <div class="scene-info">
+            <div class="current-scene">
+                <span id="sceneTitle">Selecciona un lugar</span>
+            </div>
+            <div class="scene-counter" id="sceneCounter">0 de 0 escenarios</div>
+        </div>
+        
+        <!-- Controles de navegación rápida -->
+        <div class="navigation-controls">
+            <button id="btnPrevScene" disabled>⬅️ Anterior</button>
+            <button id="btnNextScene" disabled>➡️ Siguiente</button>
+        </div>
+
+        <!-- Navegación entre ubicaciones -->
+        <div class="navigation-controls">
+            <button id="btnPrevLocation" disabled>⬅️ Ubicación</button>
+            <button id="btnNextLocation" disabled>➡️ Ubicación</button>
+        </div>
+        
+        <!-- Selector de lugares -->
+        <div class="selector-group">
+            <label for="lugarSelect">📍 Lugar:</label>
+            <select id="lugarSelect">
+                <option value="">-- Seleccionar lugar --</option>
+            </select>
+        </div>
+        
+        <!-- Selector de departamentos -->
+        <div class="selector-group">
+            <label for="departamentoSelect">🏷️ Departamento:</label>
+            <select id="departamentoSelect" disabled>
+                <option value="">-- Seleccionar lugar primero --</option>
+            </select>
+        </div>
+        
+        <!-- Selector de escenarios -->
+        <div class="selector-group">
+            <label for="escenarioSelect">🎬 Escenario:</label>
+            <select id="escenarioSelect" disabled>
+                <option value="">-- Seleccionar lugar primero --</option>
+            </select>
+        </div>
+        
+        <!-- Control de brillo -->
+        <div class="brightness-control">
+            <label for="brightness">
+                🔆 Brillo: <span id="brightnessValue">100%</span>
+            </label>
+            <input type="range" id="brightness" min="50" max="200" value="100">
+        </div>
+        
+        <!-- Información de la imagen -->
+        <div class="image-info">
+            <div class="info-item">
+                <span id="imageResolution">🖼️ --</span>
+            </div>
+            <div class="info-item">
+                <span id="imageDate">📅 --</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Controles del visor -->
+    <div class="viewer-controls">
+        <button id="btnAutoRotate">🎬 Auto-rotar</button>
+        <button id="btnVRMode">🥽 Modo VR</button>
+        <button id="btnReset">🎯 Centrar</button>
+        <button id="btnFullscreen">⛶ Pantalla</button>
+    </div>
+    
+    <!-- Status y coordenadas -->
+    <div class="status" id="status">✅ Cargando lugares disponibles...</div>
+    <div class="coordinates" id="coordinates">Yaw: 0° Pitch: 0°</div>
+    
+    <!-- Ayuda de navegación -->
+    <div class="navigation-help">
+        <div class="help-title">🎮 Controles:</div>
+        <div class="help-item">🖱️ Mouse: Arrastrar para rotar</div>
+        <div class="help-item">⚡ Scroll: Zoom in/out</div>
+        <div class="help-item">← →: Cambiar escenario</div>
+        <div class="help-item">📱 Móvil: Deslizar para rotar</div>
+    </div>
+    
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    
+    <!-- JavaScript del visor -->
+    <script src="Visor_user.js"></script>
+</body>
+</html>

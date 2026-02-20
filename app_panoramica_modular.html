@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visor Panorámico - ORB</title>
+    <!-- Archivo CSS externo -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="viewer"></div>
+    
+    <div class="upload-panel">
+        <h3 style="margin-top: 0; color: #2dd4bf;">🎬 Visor Panorámico</h3>
+        
+        <div id="slot1" class="upload-slot">
+            <div>📸 Clic para cargar primera imagen</div>
+        </div>
+        <input type="file" id="file1" accept="image/*">
+        
+        <div id="slot2" class="upload-slot">
+            <div>📸 Clic para cargar segunda imagen</div>
+        </div>
+        <input type="file" id="file2" accept="image/*">
+        
+        <button id="btnProcess" disabled>🎬 Crear Vista Panorámica</button>
+        
+        <!-- Control de brillo -->
+        <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #333;">
+            <label for="brightness" style="font-size: 12px; display: block; margin-bottom: 5px;">
+                🔆 Brillo: <span id="brightnessValue">100%</span>
+            </label>
+            <input type="range" id="brightness" min="50" max="200" value="100">
+        </div>
+    </div>
+    
+    <div class="controls">
+        <button id="btnRewind">⏪ Rebobinar</button>
+        <button id="btnAutoRotate">🎬 Auto-avanzar</button>
+        <button id="btnFastForward">⏩ Avanzar</button>
+        <button id="btnVRMode">🥽 Modo VR</button>
+        <button id="btnCreateLink">🔗 Crear Enlace</button>
+        <button id="btnSaveImage" disabled style="display: none;">💾 Guardar Imagen</button>
+        <button id="btnFullscreen">⛶ Pantalla completa</button>
+        <button id="btnReset">🎯 Centrar vista</button>
+    </div>
+    
+    <div class="status" id="status">✅ Sistema listo - Carga tus imágenes</div>
+    <div class="coordinates" id="coordinates">Yaw: 0° Pitch: 0°</div>
+    
+    <!-- Panel de guardado de imágenes -->
+    <div class="save-panel" id="savePanel" style="display: none;">
+        <h4 style="margin-top: 0; color: #2dd4bf;">💾 Guardar Imagen Panorámica</h4>
+        
+        <div style="margin-bottom: 15px;">
+            <label for="customFileName" style="display: block; margin-bottom: 5px; font-size: 12px; color: #aaa;">
+                📝 Nombre del archivo (sin extensión):
+            </label>
+            <input type="text" id="customFileName" placeholder="mi_panoramica_001" 
+                   style="width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #333; background: rgba(0,0,0,0.7); color: white; font-family: monospace;">
+            
+            <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+                <button id="btnDownloadCustom" style="width: 60%; font-size: 12px;">
+                    ✏️ Guardar con nombre personalizado
+                </button>
+                <button id="btnDownloadAuto" style="width: 40%; font-size: 12px;">
+                    🤖 Auto-nombre
+                </button>
+            </div>
+            
+            <button id="btnCancelSave" style="width: 100%; background: rgba(255,100,100,0.3); font-size: 12px; margin-bottom: 10px;">
+                ❌ Cancelar
+            </button>
+            
+            <div style="display: flex; gap: 5px;">
+                <button onclick="openORBFolder()" style="width: 50%; font-size: 11px; background: rgba(45,212,191,0.2);">
+                    📂 Abrir ORB
+                </button>
+                <button onclick="openDownloadsFolder()" style="width: 50%; font-size: 11px; background: rgba(45,212,191,0.2);">
+                    📥 Descargas
+                </button>
+            </div>
+        </div>
+        
+        <div style="font-size: 11px; color: #666; line-height: 1.4;">
+            <div style="color: #ffeb3b; font-weight: bold;">⚠️ Proceso de guardado:</div>
+            <div>1. 📥 Se descarga a <strong>Descargas</strong></div>
+            <div>2. 📂 Luego muévela a la carpeta <strong>ORB</strong></div>
+            <div>3. 📋 Formato: JPG de alta calidad</div>
+            <div>4. 🏷️ Auto-nombre: panoramica_XXX_fecha-hora</div>
+            <div style="margin-top: 5px; padding: 5px; background: rgba(45,212,191,0.1); border-radius: 3px; font-size: 10px;">
+                💡 Los botones te ayudarán a abrir las carpetas
+            </div>
+        </div>
+    </div>
+    
+    <!-- Panel de hipervínculos -->
+    <div class="hyperlink-panel" id="hyperlinkPanel" style="display: none;">
+        <h4 style="margin-top: 0; color: #2dd4bf;">🔗 Gestión de Enlaces</h4>
+        <div style="margin-bottom: 15px;">
+            <input type="text" id="linkTitle" placeholder="Título del enlace" style="width: 100%; padding: 8px; margin-bottom: 5px; border-radius: 4px; border: 1px solid #333; background: rgba(0,0,0,0.7); color: white;">
+            <input type="text" id="linkDestination" placeholder="Escenario destino" style="width: 100%; padding: 8px; margin-bottom: 5px; border-radius: 4px; border: 1px solid #333; background: rgba(0,0,0,0.7); color: white;">
+            <button id="btnSaveLink" style="width: 100%; margin-bottom: 10px;">💾 Guardar Enlace</button>
+            <button id="btnCancelLink" style="width: 100%;">❌ Cancelar</button>
+        </div>
+        
+        <div id="linksList" style="max-height: 200px; overflow-y: auto;">
+            <h5 style="color: #aaa; margin-bottom: 10px;">Enlaces creados:</h5>
+            <div id="linksContainer"></div>
+        </div>
+    </div>
+    
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    
+    <!-- Archivo JavaScript externo -->
+    <script src="scripts.js"></script>
+</body>
+</html>
