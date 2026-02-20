@@ -3,8 +3,7 @@
 let renderer, scene, camera, controls, sphereMesh, textureLoader;
 let autoRotateEnabled = false;
 let currentBrightness = 1.0;
-let vrMode = false;
-let leftCamera, rightCamera; // Cámaras para modo VR
+
 
 // Sistema de navegación de lugares y escenarios
 // Estructura: { "ALAMEDA": { '': [...], 'Dept': [...] }, "TEC": {...} }
@@ -33,7 +32,6 @@ const imageDate = document.getElementById('imageDate');
 const btnPrevScene = document.getElementById('btnPrevScene');
 const btnNextScene = document.getElementById('btnNextScene');
 const btnAutoRotate = document.getElementById('btnAutoRotate');
-const btnVRMode = document.getElementById('btnVRMode');
 const btnFullscreen = document.getElementById('btnFullscreen');
 const btnReset = document.getElementById('btnReset');
 const btnPrevLocation = document.getElementById('btnPrevLocation');
@@ -87,7 +85,6 @@ function setupEventListeners() {
     
     // Controles del visor
     if (btnAutoRotate) btnAutoRotate.addEventListener('click', toggleAutoRotate);
-    if (btnVRMode) btnVRMode.addEventListener('click', toggleVRMode);
     if (btnFullscreen) btnFullscreen.addEventListener('click', toggleFullscreen);
     if (btnReset) btnReset.addEventListener('click', resetView);
     
@@ -772,11 +769,7 @@ function animate() {
     
     updateCoordinates();
     
-    if (vrMode) {
-        renderStereo();
-    } else {
-        renderer.render(scene, camera);
-    }
+    renderer.render(scene, camera);
 }
 
 function renderStereo() {
@@ -824,19 +817,6 @@ function toggleAutoRotate() {
     }
     
     console.log('🎬 Auto-rotación:', autoRotateEnabled ? 'Activada' : 'Desactivada');
-}
-
-function toggleVRMode() {
-    vrMode = !vrMode;
-    
-    if (btnVRMode) {
-        btnVRMode.textContent = vrMode ? '📱 Normal' : '🥽 Modo VR';
-        btnVRMode.style.background = vrMode ? 
-            'rgba(45,212,191,0.4)' : 'rgba(255,255,255,0.1)';
-    }
-    
-    onWindowResize();
-    console.log('🥽 Modo VR:', vrMode ? 'Activado' : 'Desactivado');
 }
 
 function toggleFullscreen() {
